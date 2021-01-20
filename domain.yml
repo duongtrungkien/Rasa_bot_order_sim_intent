@@ -1,0 +1,61 @@
+version: "2.0"
+
+session_config:
+  session_expiration_time: 60
+  carry_over_slots_to_new_session: true
+
+intents:
+  - greet
+  - goodbye
+  - affirm
+  - deny
+  - mood_great
+  - mood_unhappy
+  - bot_challenge
+  - inform
+  - order_sim_card
+
+entities:
+  - selected_number
+
+slots:
+  selected_number:
+    type: text
+    influence_conversation: true
+
+responses:
+  utter_greet:
+    - text: "Hey! How can I help you?"
+    - text: "Hi! What do you need?"
+  utter_cheer_up:
+    - text: "Here is something to cheer you up:"
+      image: "https://i.imgur.com/nGF1K8f.jpg"
+  utter_did_that_help:
+    - text: "Did that help you?"
+  utter_happy:
+    - text: "Great, carry on!"
+  utter_goodbye:
+    - text: "Bye! See you later."
+    - text: "Bye! Have a good day."
+  utter_iamabot:
+    - text: "I am a bot, powered by Rasa."
+  utter_order_sim_card:
+    - text: "So you need a new SIM card? You can get it from here.
+        Let's identify you first. Please click this link: https://... to authenticate."
+  utter_ask_confirm_order:
+    - text: "Ok! We're sending the card for number {selected_number}, and you'll need to activate it. Do you accept?"
+  utter_deny_order:
+    - text: "No order done. You can also get the card from our customer service pages."
+
+actions:
+  - action_get_sim_availabilities
+  - action_order_sim_card
+  - action_auth
+
+forms:
+  sim_form:
+    selected_number:
+      - entity: selected_number
+        intent:
+          - inform
+        type: from_entity

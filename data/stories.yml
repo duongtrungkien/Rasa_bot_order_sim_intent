@@ -1,0 +1,82 @@
+version: "2.0"
+
+stories:
+  - story: happy path
+    steps:
+      - intent: greet
+      - action: utter_greet
+      - intent: mood_great
+      - action: utter_happy
+
+  - story: sad path 1
+    steps:
+      - intent: greet
+      - action: utter_greet
+      - intent: mood_unhappy
+      - action: utter_cheer_up
+      - action: utter_did_that_help
+      - intent: affirm
+      - action: utter_happy
+
+  - story: sad path 2
+    steps:
+      - intent: greet
+      - action: utter_greet
+      - intent: mood_unhappy
+      - action: utter_cheer_up
+      - action: utter_did_that_help
+      - intent: deny
+      - action: utter_goodbye
+
+  - story: order_sim_card_positive_path_1
+    steps:
+      - intent: greet
+      - action: utter_greet
+      - intent: order_sim_card
+      - action: utter_order_sim_card
+      - action: action_auth
+      - action: action_get_sim_availabilities
+      - action: sim_form
+      - active_loop: sim_form
+      - slot_was_set:
+          - selected_number: 05123455436
+      - active_loop: null
+      - action: utter_ask_confirm_order
+      - intent: affirm
+      - action: action_order_sim_card
+      - intent: goodbye
+      - action: utter_goodbye
+
+  - story: order_sim_card_positive_path_2
+    steps:
+      - intent: order_sim_card
+      - action: utter_order_sim_card
+      - action: action_auth
+      - action: action_get_sim_availabilities
+      - action: sim_form
+      - active_loop: sim_form
+      - slot_was_set:
+          - selected_number: 05123455436
+      - active_loop: null
+      - action: utter_ask_confirm_order
+      - intent: affirm
+      - action: action_order_sim_card
+
+  - story: order_sim_card_negative_path
+    steps:
+      - intent: greet
+      - action: utter_greet
+      - intent: order_sim_card
+      - action: utter_order_sim_card
+      - action: action_auth
+      - action: action_get_sim_availabilities
+      - action: sim_form
+      - active_loop: sim_form
+      - slot_was_set:
+          - selected_number: 05123455436
+      - active_loop: null
+      - action: utter_ask_confirm_order
+      - intent: deny
+      - action: utter_deny_order
+      - intent: goodbye
+      - action: utter_goodbye
